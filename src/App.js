@@ -1,7 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
+import "./App.css";
+import logo from "./logo.svg";
+import { getTodos } from "./actions/todos.js";
 
 function App() {
+  const dispatch = useDispatch();
+  const todosList = useSelector((state) => state.todos);
+
+  useEffect(() => {
+    dispatch(getTodos());
+  }, [dispatch]);
+
   return (
     <div className="App">
       <header className="App-header">
@@ -18,6 +29,11 @@ function App() {
           Learn React
         </a>
       </header>
+      <div>
+        {todosList?.todos?.map((singleTodo) => (
+          <p key={singleTodo.id}>{singleTodo.todo}</p>
+        ))}
+      </div>
     </div>
   );
 }
